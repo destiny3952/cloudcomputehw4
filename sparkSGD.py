@@ -89,7 +89,7 @@ spark = SparkSession \
 data = sc.textFile("gs://dataproc-temp-asia-east2-58901717024-qz6twdhz/data_banknote_authentication.txt")
 parsedData = data.map(mapper)
 
-model = CustomSGD(parsedData, lr=1, n_epoch=200)
+model = CustomSGD(parsedData, lr=0.9, n_epoch=200)
 labelsAndPreds = parsedData.map(lambda point: (int(point.item(0)), 
         round(model.predict(point.take(range(1, point.size))))))
 
