@@ -10,9 +10,7 @@ sys.path.append( SPARK_HOME + "/python") # Add python files to Python Path
 from pyspark.mllib.classification import LogisticRegressionWithSGD
 import numpy as np
 from pyspark import SparkConf, SparkContext
-from pyspark.sql import SQLContext
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import max, first, col, min
+
 import pyspark
 
 feats_min = []
@@ -32,7 +30,7 @@ class CustomSGD:
 
             self.w = self.w + w / float(train_data_random_subset.count())
             self.b = self.b + b / float(train_data_random_subset.count())
-            if epoch % 10 == 0: # print every 10 epochs
+            if epoch+1 % 10 == 0: # print every 10 epochs
                 print("Epoch " + str(epoch) + ":")
                 print(self.w)
                 print(self.b)
@@ -86,7 +84,7 @@ spark = SparkSession \
 
 
 # Load and parse the data
-data = sc.textFile("gs://dataproc-temp-asia-east2-58901717024-qz6twdhz/data_banknote_authentication.txt")
+data = sc.textFile("gs://dataproc-temp-***********************/***********************.txt") #storage URI
 parsedData = data.map(mapper)
 
 model = CustomSGD(parsedData, lr=0.9, n_epoch=200)
